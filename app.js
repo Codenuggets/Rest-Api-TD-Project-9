@@ -1,8 +1,11 @@
 'use strict';
 
+const { sequelize, models } = require('./db');
+const { Course, User } = models;
 // load modules
 const express = require('express');
 const morgan = require('morgan');
+const routes = require('./routes');
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
@@ -12,6 +15,18 @@ const app = express();
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
+app.use('/api', routes);
+
+// Testing connection to database
+(async () => {
+  sequelize.authenticate()
+    .then(() => {
+      console.log('Connection has been established successfully.');
+    })
+    .catch(err => {
+      console.error('Unable to connect to the database:', err);
+    });
+})();
 
 // TODO setup your api routes here
 
