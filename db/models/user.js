@@ -40,7 +40,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Please provide an Last Name",
+          msg: "Please provide an Password",
         },
       },
     },

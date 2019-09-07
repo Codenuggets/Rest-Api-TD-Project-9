@@ -1,7 +1,7 @@
 'use strict';
 
-const { sequelize, models } = require('./db');
-const { Course, User } = models;
+const { sequelize } = require('./db');
+
 // load modules
 const express = require('express');
 const morgan = require('morgan');
