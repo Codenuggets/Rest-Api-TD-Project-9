@@ -15,7 +15,7 @@ const app = express();
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
-app.use('/api', routes);
+
 
 // Testing connection to database
 (async () => {
@@ -29,6 +29,7 @@ app.use('/api', routes);
 })();
 
 // TODO setup your api routes here
+app.use('/api', routes);
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
