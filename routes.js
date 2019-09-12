@@ -134,10 +134,10 @@ router.get('/courses/:id', async (req, res) => {
       {
         model: User,
         as: 'user',
+        attributes: {exclude: ['createdAt', 'updatedAt', 'password']},
       },
     ],
   });
-    console.log(course.toJSON());
     res.json(course);
 });
 
@@ -149,6 +149,7 @@ router.post('/courses', [
   validator.userId ],
   async (req, res, next) => {
     const errors = validationResult(req);
+    let course;
 
     if(!errors.isEmpty()) {
       const errorMessages = errors.array().map(error => error.msg);
@@ -157,14 +158,14 @@ router.post('/courses', [
       return res.status(400).json({ errors: errorMessages });
     } else {
       try {
-        await Course.create({
+        course = await Course.create({
           title: req.body.title,
           description: req.body.description,
           estimatedTime: req.body.estimatedTime,
           materialsNeeded: req.body.materialsNeeded,
           userId: req.body.userId,
         });
-        res.status(201).end();
+        res.status(201).location('api/courses/' + course.id).end();
       } catch (error) {
         if(error.name === 'SequelizeValidationError'){
           // If so the error messages are passed into the error object, the page is rerendered with the message displayed for the user
